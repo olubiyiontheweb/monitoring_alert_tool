@@ -8,3 +8,5 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	rsc.io/sampler v1.3.0 // indirect
 )
+
+replace github.com/olubiyiontheweb/greetings => ../greetings
