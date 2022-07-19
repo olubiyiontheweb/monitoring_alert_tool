@@ -1,11 +1,11 @@
 # monitoring_alert_tool
 An alert and monitoring tool for checking the functionality and availability of a system
 
-####This tool or repo features 4 components.
-    - First is the simple application A, which is being monitored
-    - Second is the monitoring or alert tool B that monitors application A and records the event based on A response.
-    - Third is the monitor of the monitoring tool. The tool will check the status of the monitoring tool at intervals and send an email. 
-    - Fourth component is an elastic search cloud instance on aws cloud service. It will contain records of monitoring events at intervals.
+#### This tool or repo features 4 components.
+- First is the simple application A, which is being monitored
+- Second is the monitoring or alert tool B that monitors application A and records the event based on A response.
+- Third is the monitor of the monitoring tool. The tool will check the status of the monitoring tool at intervals and send an email. 
+- Fourth component is an elastic search cloud instance on aws cloud service. It will contain records of monitoring events at intervals.
 
 All other components of this system can be started with docker using the following command.
 
