@@ -1,0 +1,53 @@
+version: '3.9'
+services:
+    malliva33y21_api:
+        container_name: malliva33y21_api
+        image: malliva_api_image
+        restart: always
+        command: uvicorn main:malliva_api --host 0.0.0.0 --port 8000 --reload
+        volumes:
+            - .:/app
+        networks: 
+            - mallivaplat_net
+        ports:
+            - 8000:8000
+        links:
+            - malliva33y21_db
+        depends_on:
+            - malliva_migration
+
+    malliva_migration:
+        container_name: malliva_migration
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: malliva_api_image
+        command: python database_initializer.py
+        volumes:
+            - .:/app
+        networks: 
+            - mallivaplat_net        
+        links:
+            - malliva33y21_db
+        depends_on:
+            - malliva33y21_db
+    
+    malliva33y21_db:
+        container_name: malliva33y21_db
+        image: mongo:4.4
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: mallivay21
+            MONGO_INITDB_ROOT_PASSWORD: P123Malliva
+            MONGO_INITDB_DATABASE: malliva21_db
+        volumes:
+            # named volumes
+            - ./mongodbEntrypoint/initdb.js:/docker-entrypoint-initdb.d/initdb.js
+        networks:  
+            - mallivaplat_net
+        ports:
+            - 27017:27017
+
+networks:
+    mallivaplat_net:
+        driver: bridge
