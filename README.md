@@ -26,6 +26,7 @@ List of required environment variables required for the system to run. Copy the 
     - MONITORING_ALERT_TOOL_AWS_ES_TYPE
 
 Available endpoints on the watched system.
+
     - http://localhost:8000/ - This is the root url of the watched system.
     - http://localhost:8000/docs - to view the openapi documentation
     - http://localhost:8000/api/v1/active_status - to get the active status of the watched system.
@@ -33,4 +34,7 @@ Available endpoints on the watched system.
     - http://localhost:8000/api/v1/server_error - to get the server error status of the watched system.
 
 Starting the system in production mode
+
     -   OPENAPI_URL= uvicorn main:app or $env:OPENAPI_URL = uvicorn main:app
+
+    -   https://search-quodity-tosin-chnzbuxytdsqxtdenbmdp43kfq.eu-west-2.es.amazonaws.com/_dashboards/app/home#/
