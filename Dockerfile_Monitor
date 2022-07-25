@@ -1,0 +1,23 @@
+FROM golang:alpine3.15
+
+ENV SYSTEM_ENVIRONMENT='PRODUCTION'
+
+WORKDIR /app
+
+COPY . /app
+
+# we need these for tests and running the agent
+
+# copy .env file to the monitoring agent directory with cmd
+RUN /bin/sh -c "cp /app/monitoring_agent/.env /app/monitoring_agent/mon_agent"
+RUN /bin/sh -c "cp /app/monitoring_agent/.env /app/monitoring_agent/pkgs/alert_sender"
+RUN /bin/sh -c "cp /app/monitoring_agent/.env /app/monitoring_agent/pkgs/api_caller"
+RUN /bin/sh -c "cp /app/monitoring_agent/.env /app/monitoring_agent/pkgs/database"
+
+WORKDIR /app/monitoring_agent/mon_agent
+
+RUN go build -o monitor_agent
+
+RUN chmod +x monitor_agent
+
+RUN /bin/sh -c "./monitor_agent"

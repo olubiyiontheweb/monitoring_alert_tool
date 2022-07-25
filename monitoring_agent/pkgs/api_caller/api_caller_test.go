@@ -35,7 +35,7 @@ func TestMakeRequestServerError(t *testing.T) {
 	res_code, _ := MakeRequest(os.Getenv("API_URL"), "inactive_status", os.Getenv("AUTH_TOKEN"))
 
 	// if res_code is between 4XX and 5XX, it is an error, so it should pass
-	if res_code >= 400 && res_code < 600 {
+	if !(res_code >= 400 && res_code < 600) {
 		t.Errorf("Did not expect %d, got %d", http.StatusOK, res_code)
 	}
 }
