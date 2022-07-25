@@ -125,6 +125,7 @@ celerybeat.pid
 env/
 *env
 *env.py
+*.env
 venv/
 watched_system/venv
 ENV/

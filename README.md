@@ -17,15 +17,8 @@ or if you're rebuilding the docker images, you can use the following command.
 
 List of required environment variables required for the system to run. Copy the following environment variables to your .env file using the sample .env file provided.
 
-    - MONITORING_ALERT_TOOL_AWS_ACCESS_KEY_ID
-    - MONITORING_ALERT_TOOL_AWS_SECRET_ACCESS_KEY
-    - MONITORING_ALERT_TOOL_AWS_REGION
-    - MONITORING_ALERT_TOOL_AWS_ES_HOST
-    - MONITORING_ALERT_TOOL_AWS_ES_PORT
-    - MONITORING_ALERT_TOOL_AWS_ES_INDEX
-    - MONITORING_ALERT_TOOL_AWS_ES_TYPE
-
 Available endpoints on the watched system.
+
     - http://localhost:8000/ - This is the root url of the watched system.
     - http://localhost:8000/docs - to view the openapi documentation
     - http://localhost:8000/api/v1/active_status - to get the active status of the watched system.
@@ -33,4 +26,11 @@ Available endpoints on the watched system.
     - http://localhost:8000/api/v1/server_error - to get the server error status of the watched system.
 
 Starting the system in production mode
+
     -   OPENAPI_URL= uvicorn main:app or $env:OPENAPI_URL = uvicorn main:app
+
+The Elasticsearch dashboard can be accessed from the following url.
+
+    -   https://search-quodity-lqotvuewhisjyunjtx27r7zvlu.eu-west-2.es.amazonaws.com/_dashboards
+
+    -   SELECT * FROM quodity-index limit 20;
