@@ -9,7 +9,7 @@ import (
 func MakeRequest(api_url string, 
                 path string, 
                 auth_token string) (int, string) {
-                    
+    
     // Make the request
 	req, err := http.NewRequest(
         http.MethodGet,
@@ -18,7 +18,7 @@ func MakeRequest(api_url string,
     )
     if err != nil {
         // return http unprocessed 422 error
-        return http.StatusUnprocessableEntity, fmt.Sprintf("Error making request: %s", err)
+        return http.StatusUnprocessableEntity, fmt.Sprintf("Error making request: %s", path)
     }
 
     req.Header.Add("Accept", "application/json")
@@ -27,11 +27,11 @@ func MakeRequest(api_url string,
 
     res, err := http.DefaultClient.Do(req)
     if err != nil {
-        return http.StatusUnprocessableEntity, fmt.Sprintf("Error sending request: %s", err)
+        return http.StatusUnprocessableEntity, fmt.Sprintf("Error sending request: %s", path)
     }
     responseBytes, err := ioutil.ReadAll(res.Body)
     if err != nil {
-        return http.StatusUnprocessableEntity, fmt.Sprintf("Error reading response: %s", err)
+        return http.StatusUnprocessableEntity, fmt.Sprintf("Error reading response: %s", path)
     }
     
 	return res.StatusCode, string(responseBytes)

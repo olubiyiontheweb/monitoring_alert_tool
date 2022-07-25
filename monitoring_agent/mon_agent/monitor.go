@@ -47,7 +47,7 @@ func main() {
   ses_creds["charset"] = os.Getenv("CHARSET")
   ses_creds["from_address"] = fmt.Sprintln("\"Watched System Down Alert\" <", os.Getenv("FROM_EMAIL"), ">")
 
-  recipient := "	olubiyiontheweb@gmail.com"
+  recipient := os.Getenv("TO_EMAIL")
 
   // call the apis, if status code is 4XX or 5XX, then log the error in elastic search and send email to admin
   // recipients := []string{recipient}
@@ -60,6 +60,8 @@ func main() {
   for i := 0; i < len(available_endpoints); i++ {
     // check the status of the api
     log.Println("Checking endpoint: ", available_endpoints[i])
+
+    // call the api
     status_code, message := api_caller.MakeRequest(os.Getenv("API_URL"), available_endpoints[i], os.Getenv("AUTH_TOKEN"))
     var api_status string 
 
@@ -69,9 +71,9 @@ func main() {
     } else {
       api_status = "ok"
     }
+
     // log the error in elastic search
     event_details := `{ "event_type": "` + api_status + `", "status_code": "` + strconv.Itoa(status_code) + `", "message": "` + message[12:len(message)-2] + `", "endpoint": "` + available_endpoints[i] + `", "time": "` + time.Now().Format(time.RFC3339) + `"}`
-    fmt.Print(event_details + "\n")
                           
     es_status_code, es_message := database.RecordEvent(event_details, os.Getenv("ES_INDEX"), es_creds)
 
@@ -89,10 +91,11 @@ func main() {
       time.Sleep(time.Second * 5)
 
       // The HTML body for the email.
-      html :=  
-      "<h1>Amazon SES Test Email (AWS SDK for Go)</h1><p>This email was sent with " +
-        "<a href='https://aws.amazon.com/ses/'>Amazon SES</a> using the " +
-        "<a href='https://aws.amazon.com/sdk-for-go/'>AWS SDK for Go</a>.</p>"
+      html :=  `<h4>Watched System Down Alert</h4>
+      <p>The following endpoint is down: ` + available_endpoints[i] + `</p>
+      <p>The status code is: ` + strconv.Itoa(status_code) + `</p>
+      <p>The message is: ` + message[12:len(message)-2] + `</p>
+      <p>The time is: ` + time.Now().Format(time.RFC3339) + `</p>`
 
       //The email body for recipients with non-HTML email clients.
       text := "Quodity system is down. Please check the system and resolve the issue.\n\n" + message
