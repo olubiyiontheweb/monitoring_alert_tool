@@ -28,7 +28,7 @@ func RecordEvent(event_data string,
   // An HTTP client for sending the request
   client := &http.Client{}
 
-  // Form the HTTP request
+  // Form the HTTP request  
   req, err := http.NewRequest(http.MethodPost, endpoint, body)
   if err != nil {
     return http.StatusUnprocessableEntity, fmt.Sprintf("Error creating request: %s", err)
