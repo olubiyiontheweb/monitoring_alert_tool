@@ -5,7 +5,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        command: uvicorn main:monitor_api --host 0.0.0.0 --port 8000 --reload
+        command: uvicorn main:app --host 0.0.0.0 --port 8000
         volumes:
             - .:/app
         networks: 
@@ -13,25 +13,18 @@ services:
         ports:
             - 8000:8000
         links:
-            - monitor33y21_db
-        depends_on:
-            - monitor_migration
+            - monitoring_agent
 
-    monitor_migration:
-        container_name: monitor_migration
+    monitoring_agent:
+        container_name: monitoring_agent
         build:
             context: .
-            dockerfile: Dockerfile
-        image: monitor_api_image
-        command: python database_initializer.py
+            dockerfile: Dockerfile_Monitor
+        command: ["/bin/sh", "-c", "while true; do ./monitor_agent; sleep 300; done"]
         volumes:
             - .:/app
         networks: 
-            - monitorplat_net        
-        links:
-            - monitor33y21_db
-        depends_on:
-            - monitor33y21_db
+            - monitored_net
 
 networks:
     monitored_net:
