@@ -17,6 +17,8 @@ or if you're rebuilding the docker images, you can use the following command.
 
 List of required environment variables required for the system to run. Copy the following environment variables to your .env file using the sample .env file provided.
 
+![Elastic search dashboard](https://github.com/olubiyiontheweb/monitoring_alert_tool/blob/master/aws%20opensearch%20dashboard.png)
+
 Available endpoints on the watched system.
 
     - http://localhost:8000/ - This is the root url of the watched system.
